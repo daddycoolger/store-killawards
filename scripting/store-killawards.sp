@@ -31,7 +31,7 @@ public Plugin:myinfo =
 	author      = "eXemplar",
 	description = "Award kills component for [Store]",
 	version     = STORE_VERSION,
-	url         = "hhttps://github.com/eggsampler/store-killawards"
+	url         = "https://github.com/eggsampler/store-killawards"
 };
 
 /**
@@ -128,10 +128,13 @@ public Action:Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroa
 	if (client_killer == client_died) 
 	{
 		new points = Calculate(event, g_suicide);
-		GiveCreditsToClient(client_killer, points);
-		if (g_enable_message_per_kill)
+		if (points != 0)
 		{
-			PrintToChat(client_killer, "%s%t", STORE_PREFIX, "Received Credits Suicide", points, g_currencyName);
+			GiveCreditsToClient(client_killer, points);
+			if (g_enable_message_per_kill)
+			{
+				PrintToChat(client_killer, "%s%t", STORE_PREFIX, "Received Credits Suicide", points, g_currencyName);
+			}
 		}
 		return Plugin_Continue;
 	}
@@ -139,19 +142,25 @@ public Action:Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroa
 	if (GetClientTeam(client_killer) == GetClientTeam(client_died))
 	{
 		new points = Calculate(event, g_points_teamkill);
-		GiveCreditsToClient(client_killer, points);
-		if (g_enable_message_per_kill)
+		if (points != 0)
 		{
-			PrintToChat(client_killer, "%s%t", STORE_PREFIX, "Received Credits TeamKill", points, g_currencyName, client_died);
+			GiveCreditsToClient(client_killer, points);
+			if (g_enable_message_per_kill)
+			{
+				PrintToChat(client_killer, "%s%t", STORE_PREFIX, "Received Credits TeamKill", points, g_currencyName, client_died);
+			}
 		}
 		return Plugin_Continue;
 	}
 
 	new points = Calculate(event, g_points_kill);
-	GiveCreditsToClient(client_killer, points);
-	if (g_enable_message_per_kill)
+	if (points != 0)
 	{
-		PrintToChat(client_killer, "%s%t", STORE_PREFIX, "Received Credits Kill", points, g_currencyName, client_died);
+		GiveCreditsToClient(client_killer, points);
+		if (g_enable_message_per_kill)
+		{
+			PrintToChat(client_killer, "%s%t", STORE_PREFIX, "Received Credits Kill", points, g_currencyName, client_died);
+		}
 	}
 
 	return Plugin_Continue;
